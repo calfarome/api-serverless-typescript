@@ -1,0 +1,22 @@
+service: api-serverless-typescript
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+
+# functions
+functions:
+  hello:
+    handler: src/functions/hello.handler
+    events:
+      - http: 
+          path: serverless/hello
+          method: get
+
+# Serverless plugins
+plugins:
+  - serverless-plugin-typescript
+
+# Resources your functions use
+resources:

@@ -12,6 +12,10 @@
   "author": "Cesar",
   "license": "ISC",
   "devDependencies": {
+    "serverless-plugin-typescript": "^2.1.5",
     "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.119"
   }
 }
