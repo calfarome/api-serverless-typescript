@@ -1,0 +1,17 @@
+{
+  "name": "api-serverless-typescript",
+  "description": "api rest serverless",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "remove": "rimraf dist",
+    "start": "npm run build &&  node ./dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cesar",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  }
+}

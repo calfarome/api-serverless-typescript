@@ -1,0 +1,4 @@
+# Carpetas de paquetes de npm
+/node_modules/
+/dist/
+.env
