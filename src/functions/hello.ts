@@ -4,7 +4,7 @@ export const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayP
   try {
     const response = {
       statusCode: 200,
-      body: 'HELLO MY FRIEND!!!',
+      body: 'HELLO MY FRIEND FROM LAMBDA FUNCTIONS!',
     };
     return response;
   } catch (err) {
