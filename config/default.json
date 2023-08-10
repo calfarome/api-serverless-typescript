@@ -1,0 +1,13 @@
+{
+  "server": {
+    "port": 3000
+  },
+   "dynamodb": {
+    "endpoint": "http://localhost:8000"
+  },
+  "dbTables": {
+    "products": {
+      "name": "Product"
+    }
+  }
+}
