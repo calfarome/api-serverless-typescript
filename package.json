@@ -6,16 +6,19 @@
   "scripts": {
     "build": "npx tsc",
     "remove": "rimraf dist",
-    "start": "npm run build &&  node ./dist/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run build &&  node ./dist/src/server.js",
+    "test": "jest"
   },
   "author": "Cesar",
   "license": "ISC",
   "devDependencies": {
     "@types/config": "^3.3.0",
+    "@types/jest": "^29.5.3",
+    "@types/supertest": "^2.0.12",
     "jest": "^29.6.1",
     "serverless-plugin-typescript": "^2.1.5",
     "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.1.6"
   },
   "dependencies": {
