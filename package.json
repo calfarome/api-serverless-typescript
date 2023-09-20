@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "remove": "rimraf dist",
-    "docker": "docker compose up -d dynamodb",
+    "docker": "docker compose up -d dynamodb-local",
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
     "build": "tsoa spec-and-routes && tsc",
     "start": "node ./dist/src/server.js",
