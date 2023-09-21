@@ -1,16 +1,13 @@
 import { v4 } from 'uuid'
 import { Body, Controller, Delete, Get, Path, Post, Put, Response, Route, Security, SuccessResponse, Tags } from "tsoa";
 import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
+import { NewProduct } from '../model/NewProduct';
+import { Product } from '../model/Product';
+import { ProductsRepositoryDynamoDB } from '../repository/ProductsRepositoryDynamoDB';
+import { ProductsRepository } from '../repository/ProductRepository';
+import { provideSingleton } from '../util/provideSingleton';
+import { inject } from "inversify";
 
-export interface Product {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    createdAt: Date;
-}
-
-export interface NewProduct extends Omit<Product, "id" | "createdAt"> {}
 
 export type ProductReqBody = {
     product: NewProduct
@@ -21,50 +18,22 @@ export type ProductResBody = {
 }
 
 @Route("product")
+@provideSingleton(ProductController)
 export class ProductController extends Controller {
+
+    constructor(@inject("ProductsRepository") private productsRepository: ProductsRepository) {
+        super();
+    };
+
+    //POST METHOD
     @SuccessResponse("201", "Created")
     @Post()
-    public async postProduct(@Body() reqBody: ProductReqBody): Promise<ProductResBody>{
+    public async postProduct(@Body() reqBody: ProductReqBody): Promise<ProductResBody> {
 
-        // Creamos datos
-        const product = {
-                ...reqBody.product,
-                id: v4(),
-                createdAt: new Date(),
-            }
+        // Mando crear
+        const product = await this.productsRepository.create(reqBody.product)
 
-        // Inilizamos conección
-        const client = new DynamoDBClient({
-            endpoint:"http://localhost:8000",
-            region: "us-east-1",
-        });
-
-        // Mandamos insertar datos
- 
-       
-
-        try {
-            await client.send(new PutItemCommand({
-                TableName:"Product",
-                Item:{
-                    ProductID: {S:product.id},
-                    Name: {S:product.name},
-                    Description: {S:product.description},
-                    Price: {N:String(product.price)},
-                    CreatedAt: {N:product.createdAt.getTime().toString()},
-                }
-            }));
-            // process data.
-          } catch (error) {
-            // error handling.
-            console.error(error);
-          } finally {
-            // finally.
-          }
-        
         // Retornamos
-        return Promise.resolve({
-            product,
-        });
+        return { product };
     }
 }

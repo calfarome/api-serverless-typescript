@@ -7,6 +7,7 @@
       "specVersion": 3
     },
     "routes": {
-      "routesDir": "dist"
+      "routesDir": "dist",
+      "iocModule": "src/ioc"
     }
 }

@@ -1,61 +1,21 @@
 import { request } from "../helpers/app";
 import { v4 } from 'uuid'
 import { AttributeValue, GetItemCommand, PutItemCommand, DynamoDBClient, CreateTableCommand, DeleteItemCommand, DeleteTableCommand } from "@aws-sdk/client-dynamodb";
+import { createProductsTable, deleteProductsTable, client } from "../helpers/productsTable";
+import config from "config";
 
 // Probar test
 describe('Products', () => {
     describe('POST/product', () => {
 
-        // Conectamos a base de datos          
-        const client = new DynamoDBClient({
-            endpoint:"http://localhost:8000",
-            region: "us-east-1",
-        })
-
+        // Creamos tabla
         beforeAll(async()=>{
-            try {
-                // Creamos la tabla
-                let data =   await client.send(new CreateTableCommand({
-                    TableName: "Product",
-                    AttributeDefinitions: [{
-                        AttributeName: "ProductID",
-                        AttributeType: "S",
-                    }],
-                    KeySchema: [{
-                        AttributeName: "ProductID",
-                        KeyType: "HASH"
-                    }],
-                    ProvisionedThroughput: {
-                        ReadCapacityUnits: 5,
-                        WriteCapacityUnits: 5
-                    },
-                }))               
-
-                // process data.
-              } catch (error) {
-                console.log(error);
-              } finally {
-                // finally.
-              }            
+            await createProductsTable();       
         });     
 
+        // Al final eliminamos tablas
         afterAll(async () => {
-            try {
-                // Eliminamos las tabla
-                await client.send(
-                    new DeleteTableCommand({
-                        TableName: "Product"
-                    })
-                );
-                // process data.
-            } catch (error) {
-                // error handling.
-                console.log(error);
-            } finally {
-                // finally.
-            }
-
-
+            await deleteProductsTable();
         });
 
         it('should repond with a 201 status code', async () => {
@@ -100,7 +60,7 @@ describe('Products', () => {
             const expectedProduct = response.body.product;           
 
             const output = await client.send(new GetItemCommand({
-                TableName:'Product',
+                TableName:config.get("dbTables.products.name"),
                 Key: {
                     ProductID:{S:response.body.product.id}
                 },
