@@ -1,7 +1,7 @@
 import { Product } from "../model/Product";
 import { v4 } from 'uuid'
 
-export const createProduct = (product:Partial<Product>) =>({
+export const createProduct = (product:Partial<Product> ={}) =>({
     id: v4(),
     name: `product-name-${v4()}`,
     description: `product-description-${v4()}`,

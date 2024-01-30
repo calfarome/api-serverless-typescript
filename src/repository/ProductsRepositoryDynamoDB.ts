@@ -1,9 +1,10 @@
 import { ProductsRepository } from "./ProductRepository";
 import { NewProduct } from "../model/NewProduct";
 import { Product } from "../model/Product";
-import { DynamoDBClient,PutItemCommand} from "@aws-sdk/client-dynamodb";
-import { v4 } from 'uuid'
-import config from 'config'
+import { DynamoDBClient,GetItemCommand,PutItemCommand} from "@aws-sdk/client-dynamodb";
+import { v4 } from 'uuid';
+import config from 'config';
+import {unmarshall} from '@aws-sdk/util-dynamodb';
 
 export class ProductsRepositoryDynamoDB implements ProductsRepository {
 
@@ -45,4 +46,32 @@ export class ProductsRepositoryDynamoDB implements ProductsRepository {
     return product;
 
   }
+
+  async fetchById(id:string):Promise<Product | undefined> {
+    const output = await this.client.send(
+       new GetItemCommand({
+        TableName:config.get("dbTables.products.name"),
+        Key: {
+          ProductID:{S:id}
+        },
+       }),
+    );
+  
+    if(!output.Item) {
+      return undefined;
+    }
+
+    // Retornamos convertido a objetos javascript
+    const obj = unmarshall(output.Item);
+
+    return {
+      id: obj["ProductID"],
+      name:obj["Name"],
+      description:obj["Description"],
+      price:obj["Price"],
+      createdAt:new Date(obj["CreatedAt"])
+    };
+
+  }
+
 }

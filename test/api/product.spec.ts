@@ -20,6 +20,14 @@ describe('Products', () => {
 
         it('should repond with a 201 status code', async () => {
 
+            try {
+                const res = await fetch('https://swapi.py4e.com/api/starships/9/');
+                const json = await res.json();
+                console.log(json);
+            } catch (err) {
+                console.log(err);
+            }
+
             const reqBody = {
                 product: {
                     name: `product-name-${v4()}`,

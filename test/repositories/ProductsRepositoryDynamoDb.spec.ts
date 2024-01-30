@@ -7,6 +7,7 @@ import { createProduct } from "../helpers/createProduct";
 import { AttributeValue, GetItemCommand, PutItemCommand, DynamoDBClient, CreateTableCommand, DeleteItemCommand, DeleteTableCommand } from "@aws-sdk/client-dynamodb";
 import config from "config";
 import { createProductsTable, deleteProductsTable, client } from "../helpers/productsTable";
+import { v4 } from 'uuid'
 
 
 const getRepository = () => new ProductsRepositoryDynamoDB();
@@ -37,12 +38,12 @@ describe("ProductsRepositoryDynamoDb", () => {
 
       const actual = await getRepository().create(newProduct);
 
-      const output = await client.send(new GetItemCommand({
-        TableName:config.get("dbTables.products.name"),
-        Key: {
-            ProductID:{S:actual.id}
-        },
-    }));
+        const output = await client.send(new GetItemCommand({
+            TableName: config.get("dbTables.products.name"),
+            Key: {
+                ProductID: { S: actual.id }
+            },
+        }));
 
       
 
@@ -57,11 +58,41 @@ describe("ProductsRepositoryDynamoDb", () => {
       expect(item["Name"].S).toEqual(expectedProduct.name);
       expect(item["Description"].S).toEqual(expectedProduct.description);
       expect(item["Price"].N).toEqual(String(expectedProduct.price));
-      expect(item["CreatedAt"].N).toEqual(String(actual.createdAt.getTime()));   
-
-
+      expect(item["CreatedAt"].N).toEqual(String(actual.createdAt.getTime()));
     });
   });
 
+  describe("fetchById",()=>{
+    it('returns undefined if product with given id does not exist', async()=> {
+        const id = v4();
+        const actual = await getRepository().fetchById(id);        
+        expect(actual).toBeUndefined();
+
+    });
+
+    it('returns a product if product with given id exist in database', async()=> {
+
+        const expectedProduct = createProduct();
+
+        await client.send(
+            new PutItemCommand({
+                TableName: config.get("dbTables.products.name"),
+                Item: {
+                    ProductID: { S: expectedProduct.id },
+                    Name: { S: expectedProduct.name },
+                    Description: { S: expectedProduct.description },
+                    Price: { N: String(expectedProduct.price) },
+                    CreatedAt: { N: expectedProduct.createdAt.getTime().toString() },
+                }
+            })
+        );
+      
+        const actualProduct = await getRepository().fetchById(expectedProduct.id);        
+        expect(actualProduct).toEqual(expectedProduct);
+
+    });
+
+
+  })
   
 });
