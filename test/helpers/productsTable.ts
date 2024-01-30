@@ -1,6 +1,8 @@
 
 import config from 'config'
 import { DynamoDBClient, CreateTableCommand, DeleteTableCommand } from "@aws-sdk/client-dynamodb";
+import { iocContainer } from '../../src/ioc';
+import { ProductsRepository } from '../repository/ProductRepository';
 
 // Conectamos a base de datos          
 export const client = new DynamoDBClient(config.get("dynamodb"));
@@ -49,3 +51,7 @@ export const deleteProductsTable = async()=>{
     }
 
 }
+
+
+// Obtener repositorios para emplear en testing
+export const getProductsRepository =() => iocContainer.get<ProductsRepository>("ProductsRepository");
