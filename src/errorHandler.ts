@@ -4,6 +4,7 @@ import express, {
     NextFunction,
 } from "express";
 import { ValidateError } from "tsoa";
+import { ApiError } from "./ApiError";
 
 export function errorHandler(
     err: unknown,
@@ -18,6 +19,12 @@ export function errorHandler(
             details: err?.fields,
         });
     }
+
+    if (err instanceof ApiError) {
+        console.warn(`Caught Api Error for ${req.path}`, err.message, err.stack);
+        return res.status(err.statusCode).json(err.toJSON());
+      }
+      
     if (err instanceof Error) {
         return res.status(500).json({
             message: "Internal Server Error",
