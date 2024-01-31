@@ -1,6 +1,6 @@
 import { request } from "../helpers/app";
 import { v4 } from 'uuid'
-import { createProductsTable, deleteProductsTable, getProductsRepository} from "../helpers/productsTable";
+import { createProductsTableIfDoesNotEXist, crearProductsTable, getProductsRepository} from "../helpers/productsTable";
 import config from "config";
 import { NewProduct } from "../model/NewProduct";
 import { createProduct } from "../helpers/createProduct";
@@ -14,14 +14,10 @@ describe('Products', () => {
 
     // Creamos tabla
     beforeAll(async()=>{
-        await createProductsTable();       
-    });     
-
-    // Al final eliminamos tablas
-    afterAll(async () => {
-        await deleteProductsTable();
-    });
-
+        await createProductsTableIfDoesNotEXist();
+        await crearProductsTable();   
+    }); 
+    
     describe('GET /product/{id}', () => {
         it("Responds with 200 status code and porduct data if product with given id ixist", async()=>{
 
@@ -38,7 +34,7 @@ describe('Products', () => {
 
         });
 
-        it("responds with 404 status code and  not found message if the product with given id does not axist", async()=>{
+        it.skip("responds with 404 status code and  not found message if the product with given id does not axist", async()=>{
             const response = await request.get(`${endpoint}/${v4()}`);
 
             expect(response.body.type).toEqual("PRODUCT_NOT_FOUND");

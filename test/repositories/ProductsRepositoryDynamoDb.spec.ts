@@ -1,12 +1,12 @@
 
 
-import { ProductsRepositoryDynamoDB } from "../../src/repository/ProductsRepositoryDynamoDB";
+import { ProductsRepositoryDynamoDB, mapProductDynamoDBItemToProduct, mapProductToDynamoDBItem } from "../../src/repository/ProductsRepositoryDynamoDB";
 import { NewProduct } from "../model/NewProduct";
 import { Product } from "../model/Product";
 import { createProduct } from "../helpers/createProduct";
 import { AttributeValue, GetItemCommand, PutItemCommand, DynamoDBClient, CreateTableCommand, DeleteItemCommand, DeleteTableCommand } from "@aws-sdk/client-dynamodb";
 import config from "config";
-import { createProductsTable, deleteProductsTable, client } from "../helpers/productsTable";
+import { createProductsTableIfDoesNotEXist, crearProductsTable, client } from "../helpers/productsTable";
 import { v4 } from 'uuid'
 
 
@@ -16,12 +16,8 @@ describe("ProductsRepositoryDynamoDb", () => {
 
      // Creamos tabla
      beforeAll(async()=>{
-        await createProductsTable();       
-    });     
-
-    // Al final eliminamos tablas
-    afterAll(async () => {
-        await deleteProductsTable();
+        await createProductsTableIfDoesNotEXist();
+        await crearProductsTable();    
     });
     
   describe("create", () => {
@@ -51,14 +47,17 @@ describe("ProductsRepositoryDynamoDb", () => {
       expect(typeof actual.id).toBe("string");
       expect(actual.createdAt).toBeInstanceOf(Date);
       expect(new Date().getTime() - actual.createdAt.getTime()).toBeLessThan(1000);
-
       expect(output.Item).not.toBeUndefined();
-      const item = output.Item as Record<string, AttributeValue>;
-      expect(item["ProductID"].S).toEqual(actual.id);
-      expect(item["Name"].S).toEqual(expectedProduct.name);
-      expect(item["Description"].S).toEqual(expectedProduct.description);
-      expect(item["Price"].N).toEqual(String(expectedProduct.price));
-      expect(item["CreatedAt"].N).toEqual(String(actual.createdAt.getTime()));
+
+      // Convertimos formato dynamodb a producto
+      const storedProduct = mapProductDynamoDBItemToProduct(output.Item as Record<string, AttributeValue>);
+
+      //Comparamos
+      expect(storedProduct).toEqual({
+        ...expectedProduct,
+        id: actual.id,
+        createdAt: actual.createdAt,
+      });
     });
   });
 
@@ -77,13 +76,7 @@ describe("ProductsRepositoryDynamoDb", () => {
         await client.send(
             new PutItemCommand({
                 TableName: config.get("dbTables.products.name"),
-                Item: {
-                    ProductID: { S: expectedProduct.id },
-                    Name: { S: expectedProduct.name },
-                    Description: { S: expectedProduct.description },
-                    Price: { N: String(expectedProduct.price) },
-                    CreatedAt: { N: expectedProduct.createdAt.getTime().toString() },
-                }
+                Item: mapProductToDynamoDBItem(expectedProduct),
             })
         );
       
@@ -91,8 +84,6 @@ describe("ProductsRepositoryDynamoDb", () => {
         expect(actualProduct).toEqual(expectedProduct);
 
     });
-
-
   })
   
 });

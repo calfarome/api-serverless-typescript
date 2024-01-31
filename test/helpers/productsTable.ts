@@ -1,16 +1,25 @@
 
 import config from 'config'
-import { DynamoDBClient, CreateTableCommand, DeleteTableCommand } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient, CreateTableCommand, DeleteTableCommand, DescribeTableCommand, ResourceNotFoundException, ScanCommand, DeleteItemCommand } from "@aws-sdk/client-dynamodb";
 import { iocContainer } from '../../src/ioc';
 import { ProductsRepository } from '../repository/ProductRepository';
 
 // Conectamos a base de datos          
 export const client = new DynamoDBClient(config.get("dynamodb"));
 
-export const createProductsTable =async()=>{
+export const createProductsTableIfDoesNotEXist =async()=>{
+
+
     try {
-        // Creamos la tabla
-       await client.send(new CreateTableCommand({
+        await client.send(new DescribeTableCommand({
+            TableName: config.get("dbTables.products.name"),
+        }))
+    } catch(e){
+        if(!(e instanceof ResourceNotFoundException)){
+            throw e;
+        }
+
+        await client.send(new CreateTableCommand({
             TableName: config.get("dbTables.products.name"),
             AttributeDefinitions: [{
                 AttributeName: "ProductID",
@@ -24,32 +33,30 @@ export const createProductsTable =async()=>{
                 ReadCapacityUnits: 5,
                 WriteCapacityUnits: 5
             },
-        }))               
-
-        // process data.
-      } catch (error) {
-        console.log(error);
-      } finally {
-        // finally.
-      } 
+        })); 
+    }
 }
 
-export const deleteProductsTable = async()=>{
-    try {
-        // Eliminamos las tabla
-        await client.send(
-            new DeleteTableCommand({
-                TableName: config.get("dbTables.products.name"),
-            })
-        );
-        // process data.
-    } catch (error) {
-        // error handling.
-        console.log(error);
-    } finally {
-        // finally.
-    }
+export const crearProductsTable = async()=>{
 
+     // Limpeamos  las tabla
+     const output= await client.send(
+        new ScanCommand({
+            TableName: config.get("dbTables.products.name"),
+        })
+    );
+
+    await Promise.all((output.Items || []).map(async (item)=>{
+
+        return client.send(
+            new DeleteItemCommand({
+                TableName: config.get("dbTables.products.name"),
+                Key: {
+                    ProductID: item["ProductID"]
+                }
+            })
+        )
+    }));
 }
 
 
