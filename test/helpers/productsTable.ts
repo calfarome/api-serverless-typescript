@@ -3,9 +3,12 @@ import config from 'config'
 import { DynamoDBClient, CreateTableCommand, DeleteTableCommand, DescribeTableCommand, ResourceNotFoundException, ScanCommand, DeleteItemCommand } from "@aws-sdk/client-dynamodb";
 import { iocContainer } from '../../src/ioc';
 import { ProductsRepository } from '../repository/ProductRepository';
+import { createProductsTableIfDoesNotExist as createProductTable } from "../../src/util/createProductsTableIfDoesNotExist";
 
 // Conectamos a base de datos          
 export const client = new DynamoDBClient(config.get("dynamodb"));
+
+export const createProductsTableIfDoesNotExist = () => createProductTable(client);
 
 export const createProductsTableIfDoesNotEXist =async()=>{
 
