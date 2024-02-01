@@ -2,7 +2,9 @@
     "server": {
       "port": 4000
     },
-     "dynamodb": {},
+     "dynamodb": {
+      "endpoint":null
+     },
     "dbTables": {
       "products": {
         "name": "Product"

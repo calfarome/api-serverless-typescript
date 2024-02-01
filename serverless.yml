@@ -4,15 +4,39 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: us-east-1
+  lambdaHashingVersion: 20201221
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  # you can add statements to the Lambda function's IAM Role here
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "dynamodb:PutItem"
+            - "dynamodb:GetItem"
+            - "dynamodb:DeleteItem"
+            - "dynamodb:Scan"
+          Resource:
+            - { "Fn::GetAtt": ["ProductsTable", "Arn"] }
+  # you can define service wide environment variables here
+  environment:
+    PRODUCTS_TABLE_NAME: ${self:provider.stage}Products
+    NODE_ENV: development
+
+# you can add packaging information here
+package:
+  patterns:
+    - config/**    
 
 # functions
 functions:
-  hello:
-    handler: src/functions/hello.handler
+  openapi:
+    handler: src/index.handler
     events:
-      - http: 
-          path: serverless/hello
-          method: get
+      - httpApi:
+          path: /{proxy+}
+          method: any
 
 # Serverless plugins
 plugins:
@@ -20,3 +44,16 @@ plugins:
 
 # Resources your functions use
 resources:
+  Resources:
+    ProductsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.PRODUCTS_TABLE_NAME}
+        # cheapest for the beginning
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: ProductID
+            AttributeType: S
+        KeySchema:
+          - AttributeName: ProductID
+            KeyType: HASH
