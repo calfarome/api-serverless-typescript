@@ -49,15 +49,15 @@ export class StarshipController extends Controller {
         // Variable para recibir data The Star Wars API
         let starshipsData:any
 
+        // Consultar
         try {
             const res = await fetch('https://swapi.py4e.com/api/starships/9/');
-            starshipsData = await res.json();
-            console.log(starshipsData);
+            starshipsData = await res.json();            
         } catch (err) {
             console.log(err);
         }
 
-        // Mapeo datos para atributos español  
+        // Mapear datos para atributos español  
         reqBody.starship.MGLT = String(starshipsData.MGLT);
         reqBody.starship.capacidad_carga = String(starshipsData.cargo_capacity);
         reqBody.starship.consumibles = String(starshipsData.consumables);

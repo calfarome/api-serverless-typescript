@@ -48,8 +48,10 @@ describe('Starships', () => {
 
         it("responds with 201 status code and newly created starship data if starship has been created successfully", async () => {
 
+            // Variable
             let starshipsData:any
 
+            // consultamos
             try {
                 const res = await fetch('https://swapi.py4e.com/api/starships/9/');
                 starshipsData = await res.json();
@@ -58,6 +60,7 @@ describe('Starships', () => {
                 console.log(err);
             }
 
+            // mapeamos atributos
             const reqBody = {
                 starship: {
                     MGLT:String(starshipsData.MGLT),
