@@ -44,39 +44,44 @@ describe('Starships', () => {
     
     describe('POST/starship', () => {
 
+       
+
         it("responds with 201 status code and newly created starship data if starship has been created successfully", async () => {
+
+            let starshipsData:any
 
             try {
                 const res = await fetch('https://swapi.py4e.com/api/starships/9/');
-                const json = await res.json();
-                console.log(json);
+                starshipsData = await res.json();
+                console.log(starshipsData);
             } catch (err) {
                 console.log(err);
             }
 
             const reqBody = {
                 starship: {
-                    MGLT:`MGLT-${v4()}`,
-                    capacidad_carga:`capacidad_carga-${v4()}`,
-                    consumibles: `consumibles-${v4()}`,
-                    costo_en_creditos:`costo_en_creditos-${v4()}`,
-                    fecha_creacion:`fecha_creacion-${v4()}`,
-                    tripulacion:`tripulacion-${v4()}`,
-                    fecha_modificacion:`fecha_modificacion-${v4()}`,
-                    calificacion_hiperimpulsor:`calificacion_hiperimpulsor-${v4()}`,
-                    longitud:`longitud-${v4()}`,
-                    fabricante:`fabricante-${v4()}`,
-                    velocidad_maxima_atmosfera:`velocidad_maxima_atmosfera-${v4()}`,
-                    modelo:`modelo-${v4()}`,
-                    nombre:`nombre-${v4()}`,
-                    pasajeros:`pasajeros-${v4()}`,
-                    peliculas: `peliculas-${v4()}`,
-                    pilotos: `pilotos-${v4()}`,
-                    clase_nave_estelar: `clase_nave_estelar-${v4()}`,
-                    url:`url-${v4()}`,
+                    MGLT:String(starshipsData.MGLT),
+                    capacidad_carga:String(starshipsData.cargo_capacity),
+                    consumibles: String(starshipsData.consumables),
+                    costo_en_creditos:String(starshipsData.cost_in_credits),
+                    fecha_creacion:String(starshipsData.created),
+                    tripulacion:String(starshipsData.crew),
+                    fecha_modificacion:String(starshipsData.edited),
+                    calificacion_hiperimpulsor:String(starshipsData.hyperdrive_rating),
+                    longitud:String(starshipsData.length),
+                    fabricante:String(starshipsData.manufacturer),
+                    velocidad_maxima_atmosfera:String(starshipsData.max_atmosphering_speed),
+                    modelo:String(starshipsData.model),
+                    nombre:String(starshipsData.name),
+                    pasajeros:String(starshipsData.passengers),
+                    peliculas: String(starshipsData.films[0]),
+                    pilotos: String(starshipsData.pilots[0]),
+                    clase_nave_estelar: String(starshipsData.starship_class),
+                    url:String(starshipsData.url),
                 }
+               
             }
-
+ 
             const expextedResBody = {
                 starship: {
                     ...reqBody.starship,

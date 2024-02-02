@@ -39,7 +39,7 @@ export const mapStarshipDynamoDBItemToStarship = (item:Record<string,AttributeVa
    const obj = unmarshall(item);
 
    return {
-     id: obj["StarshipID"],
+     id: obj["StarshipID"],    
      MGLT:obj["MGLT"],
      capacidad_carga:obj["Capacidad_carga"],    
      consumibles:obj["Consumibles"],

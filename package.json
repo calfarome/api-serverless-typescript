@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "remove": "rimraf dist -S dev",
+    "remove": "rimraf dist",
     "docker": "docker compose up -d dynamodb-local",
     "deploy": "serverless deploy",
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",

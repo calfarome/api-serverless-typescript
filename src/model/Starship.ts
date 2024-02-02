@@ -1,5 +1,5 @@
 export interface Starship {
-    id: string;
+    id: string;    
     MGLT:string;
     capacidad_carga: string;
     consumibles: string;

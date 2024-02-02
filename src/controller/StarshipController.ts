@@ -46,7 +46,38 @@ export class StarshipController extends Controller {
     @Post()
     public async postStarship(@Body() reqBody: StarshipReqBody): Promise<StarshipResBody> {
 
-        // Mando crear
+        // Variable para recibir data The Star Wars API
+        let starshipsData:any
+
+        try {
+            const res = await fetch('https://swapi.py4e.com/api/starships/9/');
+            starshipsData = await res.json();
+            console.log(starshipsData);
+        } catch (err) {
+            console.log(err);
+        }
+
+        // Mapeo datos para atributos español  
+        reqBody.starship.MGLT = String(starshipsData.MGLT);
+        reqBody.starship.capacidad_carga = String(starshipsData.cargo_capacity);
+        reqBody.starship.consumibles = String(starshipsData.consumables);
+        reqBody.starship.costo_en_creditos= String(starshipsData.cost_in_credits);
+        reqBody.starship.fecha_creacion= String(starshipsData.created);
+        reqBody.starship.tripulacion= String(starshipsData.crew);
+        reqBody.starship.fecha_modificacion= String(starshipsData.edited);
+        reqBody.starship.calificacion_hiperimpulsor= String(starshipsData.hyperdrive_rating);
+        reqBody.starship.longitud= String(starshipsData.length);
+        reqBody.starship.fabricante= String(starshipsData.manufacturer);
+        reqBody.starship.velocidad_maxima_atmosfera= String(starshipsData.max_atmosphering_speed);
+        reqBody.starship.modelo= String(starshipsData.model);
+        reqBody.starship.nombre= String(starshipsData.name);
+        reqBody.starship.pasajeros= String(starshipsData.passengers);
+        reqBody.starship.peliculas= String(starshipsData.films[0]);
+        reqBody.starship.pilotos= String(starshipsData.pilots[0]);
+        reqBody.starship.clase_nave_estelar= String(starshipsData.starship_class);
+        reqBody.starship.url= String(starshipsData.url);
+
+        // Mando crear base datos
         const starship = await this.starshipsRepository.create(reqBody.starship)
 
         // Retornamos
