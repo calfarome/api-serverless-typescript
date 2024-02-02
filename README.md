@@ -1,6 +1,6 @@
 # API REST AWS Lambda Y Serverless Framework
 
-Implmentación de API REST con endpoints `POST` y `GET` . Recupera y guarda datos de The Star Wars API de modelo  '`Starships` '. La arquitectura de este proyecto es contruido siguiento el patron `Repository Pattern`. 
+Implmentación de API REST con endpoints `POST` y `GET` . Recupera y guarda datos de The Star Wars API de modelo `Starships` . La arquitectura de este proyecto es contruido siguiento el patron `Repository Pattern`. 
 
 ## Tecnologias
 
@@ -28,7 +28,7 @@ Entrar directorio
 cd api-serverless-typescript
 ```
 
-Run:
+Ejecutar:
 
 ```
 npm install
