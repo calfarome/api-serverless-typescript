@@ -1,6 +1,6 @@
 {
   "name": "api-serverless-typescript",
-  "description": "api rest serverless",
+  "description": "API request to the Star Wars API!",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {

@@ -6,8 +6,8 @@
       "endpoint":null
      },
     "dbTables": {
-      "products": {
-        "name": "Product"
+      "starships": {
+        "name": "Starship"
       }
     }
 }

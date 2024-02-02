@@ -3,8 +3,8 @@
     "port": "SERVER_PORT"
   },
   "dbTables": {
-    "products": {
-      "name": "PRODUCTS_TABLE_NAME"
+    "starships": {
+      "name": "STARSHIPS_TABLE_NAME"
     }
   }
 }

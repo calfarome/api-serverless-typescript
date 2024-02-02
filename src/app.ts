@@ -19,7 +19,7 @@ app.use("/docs", swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
 RegisterRoutes(app);
 
 // Registrar rutas aqui
-app.get("/product",(req,res)=>{
+app.get("/starship",(req,res)=>{
   res.send('Serverless TypeScript proyect is running');
 })
 

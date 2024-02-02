@@ -6,8 +6,8 @@
     "endpoint": "http://localhost:8000"
   },
   "dbTables": {
-    "products": {
-      "name": "Product"
+    "starships": {
+      "name": "Starship"
     }
   }
 }

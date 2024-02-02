@@ -1,16 +1,15 @@
 
 import config from "config";
 import { app } from "./app";
-import { createProductsTableIfDoesNotEXist } from "./helpers/productsTable";
-import { createProductsTableIfDoesNotExist } from "./util/createProductsTableIfDoesNotExist";
+import { createStarshipsTableIfDoesNotExist } from "./util/createStarshipsTableIfDoesNotExist";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
 // Obtengo puerto
 const port = config.get("server.port");
 
-// creamos tablas Dynamo al iniciar
+// creamos tablas Dynamodb al iniciar
 setImmediate(async()=>{
-await createProductsTableIfDoesNotExist(new DynamoDBClient(config.get("dynamodb")));
+await createStarshipsTableIfDoesNotExist(new DynamoDBClient(config.get("dynamodb")));
 });
 
 // Escucho

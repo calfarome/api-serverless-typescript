@@ -18,10 +18,10 @@ provider:
             - "dynamodb:DeleteItem"
             - "dynamodb:Scan"
           Resource:
-            - { "Fn::GetAtt": ["ProductsTable", "Arn"] }
+            - { "Fn::GetAtt": ["StarshipsTable", "Arn"] }
   # you can define service wide environment variables here
   environment:
-    PRODUCTS_TABLE_NAME: ${self:provider.stage}Products
+    STARSHIPS_TABLE_NAME: ${self:provider.stage}Starships
     NODE_ENV: development
 
 # you can add packaging information here
@@ -45,15 +45,15 @@ plugins:
 # Resources your functions use
 resources:
   Resources:
-    ProductsTable:
+    StarshipsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.PRODUCTS_TABLE_NAME}
+        TableName: ${self:provider.environment.STARSHIPS_TABLE_NAME}
         # cheapest for the beginning
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
-          - AttributeName: ProductID
+          - AttributeName: StarshipID
             AttributeType: S
         KeySchema:
-          - AttributeName: ProductID
+          - AttributeName: StarshipID
             KeyType: HASH

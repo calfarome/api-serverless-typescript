@@ -6,11 +6,11 @@ import {
   ResourceNotFoundException,
 } from "@aws-sdk/client-dynamodb";
 
-export const createProductsTableIfDoesNotExist = async (client: DynamoDBClient) => {
+export const createStarshipsTableIfDoesNotExist = async (client: DynamoDBClient) => {
   try {
     await client.send(
       new DescribeTableCommand({
-        TableName: config.get("dbTables.products.name"),
+        TableName:config.get("dbTables.starships.name"),
       }),
     );
   } catch (e) {
@@ -20,16 +20,16 @@ export const createProductsTableIfDoesNotExist = async (client: DynamoDBClient) 
 
     await client.send(
       new CreateTableCommand({
-        TableName: config.get("dbTables.products.name"),
+        TableName:config.get("dbTables.starships.name"),
         AttributeDefinitions: [
           {
-            AttributeName: "ProductID",
+            AttributeName: "StarshipID",
             AttributeType: "S",
           },
         ],
         KeySchema: [
           {
-            AttributeName: "ProductID",
+            AttributeName: "StarshipID",
             KeyType: "HASH",
           },
         ],
