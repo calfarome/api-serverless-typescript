@@ -34,7 +34,7 @@ Ejecutar:
 npm install
 ```
 
-## Usage
+## Iniciar proyecto
 
 Para iniciar el proyecto, primero levantar base de datos DynamoDB localente con docker
 
@@ -45,8 +45,8 @@ npm run docker
 Luego iniciar el proyecto localmente:
 
 ```
-npm run dev```
-
+npm run dev
+```
 
 ## Documentacion
 
