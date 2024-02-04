@@ -1,10 +1,8 @@
 import { request } from "../helpers/app";
 import { v4 } from 'uuid'
 import { createStarshipsTableIfDoesNotExist, crearStarshipsTable, getStarshipsRepository} from "../helpers/starshipsTable";
-import config from "config";
-import { NewStarship } from "../../src/model/NewStarship";
+import { NewStarship } from "../../src/api/starships/model/NewStarship";
 import { createStarship } from "../helpers/createStarship";
-import { Starship } from "../model/Starship";
 
 // Probar test
 describe('Starships', () => {

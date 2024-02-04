@@ -1,8 +1,8 @@
 
 
-import { StarshipsRepositoryDynamoDB, mapStarshipDynamoDBItemToStarship, mapStarshipToDynamoDBItem } from "../../src/repository/StarshipsRepositoryDynamoDB";
-import { NewStarship } from "../../src/model/NewStarship";
-import { Starship} from "../../src/model/Starship";
+import { StarshipsRepositoryDynamoDB, mapStarshipDynamoDBItemToStarship, mapStarshipToDynamoDBItem } from "../../src/api/starships/repository/StarshipsRepositoryDynamoDB";
+import { NewStarship } from "../../src/api/starships/model/NewStarship";
+import { Starship} from "../../src/api/starships/model/Starship";
 import { createStarship } from "../helpers/createStarship";
 import { AttributeValue, GetItemCommand, PutItemCommand, DynamoDBClient, CreateTableCommand, DeleteItemCommand, DeleteTableCommand } from "@aws-sdk/client-dynamodb";
 import config from "config";

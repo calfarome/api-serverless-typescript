@@ -2,7 +2,7 @@
 import config from 'config'
 import { DynamoDBClient, CreateTableCommand, DeleteTableCommand, DescribeTableCommand, ResourceNotFoundException, ScanCommand, DeleteItemCommand } from "@aws-sdk/client-dynamodb";
 import { iocContainer } from '../../src/ioc';
-import { StarshipsRepository } from '../../src/repository/StarshipRepository';
+import { StarshipsRepository } from '../../src/api/starships/repository/StarshipRepository';
 import { createStarshipsTableIfDoesNotExist as createStarshipTable } from "../../src/util/createStarshipsTableIfDoesNotExist";
 
 // Conectamos a base de datos          

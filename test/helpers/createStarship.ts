@@ -1,4 +1,4 @@
-import {Starship } from "../../src/model/Starship";
+import {Starship } from "../../src/api/starships/model/Starship";
 import { v4 } from 'uuid'
 
 export const createStarship = (starship:Partial<Starship> ={}) =>({

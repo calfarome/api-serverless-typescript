@@ -1,12 +1,10 @@
 import { v4 } from 'uuid'
 import { Body, Controller, Delete, Get, Path, Post, Put, Response, Route, Security, SuccessResponse, Tags } from "tsoa";
-
 import { NewStarship } from '../model/NewStarship';
 import { Starship } from '../model/Starship';
-import { StarshipsRepository } from '../repository/StarshipRepository';
-import { provideSingleton } from '../util/provideSingleton';
+import { StarshipsService} from "../service/StarshipService";
+import { provideSingleton } from '../../../util/provideSingleton';
 import { inject } from "inversify";
-import { ApiError } from "../ApiError"
 
 
 export type StarshipReqBody = {
@@ -21,23 +19,14 @@ export type StarshipResBody = {
 @provideSingleton(StarshipController)
 export class StarshipController extends Controller {
 
-    constructor(@inject("StarshipsRepository") private starshipsRepository: StarshipsRepository) {
+    constructor(@inject(StarshipsService) private starshipsService: StarshipsService) {
         super();
     };
 
     // GET METHOD
     @Get("{id}")
      public async getStarship(@Path("id") id: string): Promise<StarshipResBody> {
-
-        const starship = await  this.starshipsRepository.fetchById(id);
-
-        if(!starship) {
-            throw new ApiError({
-                statusCode:404,
-                type:"STARSHIP_NOT_FOUND",
-            })
-        }
-
+        const starship = await  this.starshipsService.getStarship(id);
         return {starship}
      }
 
@@ -78,7 +67,7 @@ export class StarshipController extends Controller {
         reqBody.starship.url= String(starshipsData.url);
 
         // Mando crear base datos
-        const starship = await this.starshipsRepository.create(reqBody.starship)
+        const starship = await this.starshipsService.createStarship(reqBody.starship)
 
         // Retornamos
         return { starship };
