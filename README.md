@@ -1,17 +1,17 @@
 # API REST AWS Lambda Y Serverless Framework
 
-Implmentación de API REST con endpoints `POST` y `GET` . Recupera y guarda datos de `StarWars API` de modelo `Starships` . La arquitectura de este proyecto es contruido siguiento el patron `Repository Pattern`. 
+Implmentación de API REST con endpoints `POST` y `GET` . Recupera y guarda datos de `StarWars API` de modelo `Starships` . La arquitectura de este proyecto es construido siguiento el patron `Repository Pattern`. 
 
 ## Tecnologias
 
 - `node.js` con  `node.js`
 - `express`
-- `tsoa` para trabajar con anotaciones para generar APIS.
-- `serverless-framework`
-- `serverless-framework` para desplegar proyectos a AWS
-- `jest`y `supertest` para escribir pruebas unitarias
-- `swagger-ui-express` para generar documentación 
-- `docker` para generar base de datos dynamodb localmente para testear
+- `tsoa`, para trabajar con anotaciones para generar APIS.
+
+- `serverless-framework`, para desplegar proyectos a AWS.
+- `jest`y `supertest`, para escribir pruebas unitarias.
+- `swagger-ui-express`, para generar documentación.
+- `docker`,para generar base de datos dynamodb localmente para testear.
 
 
 ## Instalación
@@ -36,7 +36,7 @@ npm install
 
 ## Iniciar proyecto
 
-Para iniciar el proyecto, primero levantar base de datos DynamoDB localente con docker
+Para iniciar el proyecto, primero levantar base de datos DynamoDB localente con docker.
 
 ```
 npm run docker
@@ -51,7 +51,7 @@ npm run dev
 ## Documentacion
 
 Una vez iniciado el proyecto, ingresar: [http://localhost:4000/docs/](http://localhost:3000/docs/)
-para ver documentación y probar los endpoints
+para ver documentación y probar los endpoints.
 
 ## Desplegar a AWS
 
