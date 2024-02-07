@@ -23,7 +23,7 @@ export class StarshipsService {
     return starship;
   }
 
-  public async createStarship(newArticle: NewStarship): Promise<Starship> {
+  public async createStarship(newStarship: NewStarship): Promise<Starship> {
 
     // Variable para recibir data The Star Wars API
     let starshipsData: any
@@ -37,26 +37,26 @@ export class StarshipsService {
     }
 
     // Mapear datos para atributos español  
-    newArticle.MGLT = String(starshipsData.MGLT);
-    newArticle.capacidad_carga = String(starshipsData.cargo_capacity);
-    newArticle.consumibles = String(starshipsData.consumables);
-    newArticle.costo_en_creditos = String(starshipsData.cost_in_credits);
-    newArticle.fecha_creacion = String(starshipsData.created);
-    newArticle.tripulacion = String(starshipsData.crew);
-    newArticle.fecha_modificacion = String(starshipsData.edited);
-    newArticle.calificacion_hiperimpulsor = String(starshipsData.hyperdrive_rating);
-    newArticle.longitud = String(starshipsData.length);
-    newArticle.fabricante = String(starshipsData.manufacturer);
-    newArticle.velocidad_maxima_atmosfera = String(starshipsData.max_atmosphering_speed);
-    newArticle.modelo = String(starshipsData.model);
-    newArticle.nombre = String(starshipsData.name);
-    newArticle.pasajeros = String(starshipsData.passengers);
-    newArticle.peliculas = String(starshipsData.films[0]);
-    newArticle.pilotos = String(starshipsData.pilots[0]);
-    newArticle.clase_nave_estelar = String(starshipsData.starship_class);
-    newArticle.url = String(starshipsData.url);
+    newStarship.MGLT = String(starshipsData.MGLT);
+    newStarship.capacidad_carga = String(starshipsData.cargo_capacity);
+    newStarship.consumibles = String(starshipsData.consumables);
+    newStarship.costo_en_creditos = String(starshipsData.cost_in_credits);
+    newStarship.fecha_creacion = String(starshipsData.created);
+    newStarship.tripulacion = String(starshipsData.crew);
+    newStarship.fecha_modificacion = String(starshipsData.edited);
+    newStarship.calificacion_hiperimpulsor = String(starshipsData.hyperdrive_rating);
+    newStarship.longitud = String(starshipsData.length);
+    newStarship.fabricante = String(starshipsData.manufacturer);
+    newStarship.velocidad_maxima_atmosfera = String(starshipsData.max_atmosphering_speed);
+    newStarship.modelo = String(starshipsData.model);
+    newStarship.nombre = String(starshipsData.name);
+    newStarship.pasajeros = String(starshipsData.passengers);
+    newStarship.peliculas = String(starshipsData.films[0]);
+    newStarship.pilotos = String(starshipsData.pilots[0]);
+    newStarship.clase_nave_estelar = String(starshipsData.starship_class);
+    newStarship.url = String(starshipsData.url);
 
-    const startship = await this.starshipsRepository.create(newArticle);
+    const startship = await this.starshipsRepository.create(newStarship);
 
     return startship;
   }
