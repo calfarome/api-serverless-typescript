@@ -4,7 +4,7 @@ Implmentación de API REST con endpoints `POST` y `GET` . Recupera y guarda dato
 
 ## Tecnologias
 
-- `node.js` con  `node.js`
+- `node.js` con  `npm`
 - `express`
 - `tsoa`, para trabajar con anotaciones para generar APIS.
 
